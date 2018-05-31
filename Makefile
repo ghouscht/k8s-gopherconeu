@@ -9,6 +9,9 @@ BUILD_TIME?=$(shell date -u '+%Y-%m-%d_%H:%M:%S')
 
 CONTAINER_IMAGE?=docker.io/thomasgosteli/gophercon
 
+GOOS?=linux
+GOARCH?=amd64
+
 clean:
 	rm -rf ./bin/${APP}
 
@@ -21,7 +24,7 @@ build: clean
 		-ldflags "-s -w -X ${PROJECT}/version.Release=${RELEASE} \
 		-X ${PROJECT}/version.Commit=${COMMIT} \
 		-X ${PROJECT}/version.BuildTime=${BUILD_TIME}" \
-		-o ./bin/${APP} ./cmd/gophercon.go
+		-o ./bin/${GOOS}-${GOARCH}/${APP} ${PROJECT}/cmd 
 
 run: build
 	SERVICE_PORT=${PORT} ./bin/${APP}
