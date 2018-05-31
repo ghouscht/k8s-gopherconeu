@@ -10,7 +10,7 @@ BUILD_TIME?=$(shell date -u '+%Y-%m-%d_%H:%M:%S')
 CONTAINER_IMAGE?=docker.io/thomasgosteli/gophercon
 
 clean:
-	rm -rf ./dist/${APP}
+	rm -rf ./bin/${APP}
 
 test:
 	go test -race -cover ./...
@@ -21,10 +21,10 @@ build: clean
 		-ldflags "-s -w -X ${PROJECT}/version.Release=${RELEASE} \
 		-X ${PROJECT}/version.Commit=${COMMIT} \
 		-X ${PROJECT}/version.BuildTime=${BUILD_TIME}" \
-		-o ./dist/${APP} ./cmd/gophercon.go
+		-o ./bin/${APP} ./cmd/gophercon.go
 
 run: build
-	SERVICE_PORT=${PORT} ./dist/${APP}
+	SERVICE_PORT=${PORT} ./bin/${APP}
 
 push: build
 	docker push $(CONTAINER_IMAGE):$(RELEASE)
