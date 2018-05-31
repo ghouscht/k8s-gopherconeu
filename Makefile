@@ -1,6 +1,6 @@
 PROJECT?=github.com/ghouscht/k8s-gopherconeu
 GOOS?=linux
-APP?=gophercon
+APP?=k8s-gopherconeu
 PORT?=8080
 
 RELEASE?=0.0.1
