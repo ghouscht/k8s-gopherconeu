@@ -1,0 +1,10 @@
+FROM golang
+
+ENV DIAG_PORT 8081
+ENV SERVICE_PORT 8080
+
+EXPOSE $SERVICE_PORT
+EXPOSE $DIAG_PORT
+
+COPY dist/gophercon /gophercon
+CMD ["/gophercon"]
