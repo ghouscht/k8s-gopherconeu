@@ -7,6 +7,8 @@ RELEASE?=0.0.1
 COMMIT?=$(shell git rev-parse --short HEAD)
 BUILD_TIME?=$(shell date -u '+%Y-%m-%d_%H:%M:%S')
 
+CONTAINER_IMAGE?=docker.io/thomasgosteli/gophercon
+
 clean:
 	rm -rf ./dist/${APP}
 
@@ -23,3 +25,9 @@ build: clean
 
 run: build
 	SERVICE_PORT=${PORT} ./dist/${APP}
+
+push: build
+	docker push $(CONTAINER_IMAGE):$(RELEASE)
+
+deploy: push
+	helm upgrade ${CONTAINER_NAME} -f gophercon/values.yaml charts --kube-context ${KUBE_CONTEXT} --namespace ${NAMESPACE} --version=${RELEASE} -i --wait
